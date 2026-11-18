@@ -17,13 +17,9 @@
 
 ---
 
-## Screenshots
+## Screenshot
 
 ![AS Shield main window](docs/img/screenshot.png)
-
-> _A short screen recording (a profile running end to end) is worth more than any description. Save a GIF at `docs/img/demo.gif`._
-
-<!-- ![Applying a profile](docs/img/demo.gif) -->
 
 ---
 

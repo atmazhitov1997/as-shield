@@ -19,9 +19,7 @@
 
 ## Screenshots
 
-> _Add a screenshot of the running app here. Build it (see [Building](#building)), run `AS Shield.exe` on Windows, and drop a PNG at `docs/img/screenshot.png`._
-
-<!-- ![AS Shield main window](docs/img/screenshot.png) -->
+![AS Shield main window](docs/img/screenshot.png)
 
 > _A short screen recording (a profile running end to end) is worth more than any description. Save a GIF at `docs/img/demo.gif`._
 

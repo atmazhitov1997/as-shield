@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- AS Shield - Windows security profile tool (C# WinForms front end + PowerShell engine).
+       Build with build\build.ps1: profile validation -> payload.zip -> SHA-256 manifest -> exe. -->
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>AS Shield</AssemblyName>
+    <RootNamespace>ASConfig</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JetBrainsMono-Regular.ttf" LogicalName="JetBrainsMono-Regular.ttf" />
+    <EmbeddedResource Include="JetBrainsMono-Bold.ttf" LogicalName="JetBrainsMono-Bold.ttf" />
+    <!-- payload.zip is produced from the ..\Payload folder by build\pack-payload.ps1 -->
+    <EmbeddedResource Include="..\build\out\payload.zip" LogicalName="payload.zip" />
+    <!-- SHA-256 of every payload file; checked before every run (PayloadGuard.cs) -->
+    <EmbeddedResource Include="..\build\out\payload.manifest.json" LogicalName="payload.manifest.json" />
+  </ItemGroup>
+</Project>

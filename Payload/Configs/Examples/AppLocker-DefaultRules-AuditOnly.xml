@@ -1,0 +1,15 @@
+<AppLockerPolicy Version="1">
+<RuleCollection Type="Exe" EnforcementMode="AuditOnly">
+<FilePathRule Id="9755c59b-5d58-4dd5-8883-104a0097cbf0" Name="(Default Rule) All files located in the Program Files folder" Description="Allows members of the Everyone group to run applications that are located in the Program Files folder." UserOrGroupSid="S-1-1-0" Action="Allow"><Conditions><FilePathCondition Path="%PROGRAMFILES%\*" /></Conditions></FilePathRule>
+<FilePathRule Id="594e2c87-79d0-407d-a249-a17401e1e272" Name="(Default Rule) All files located in the Windows folder" Description="Allows members of the Everyone group to run applications that are located in the Windows folder." UserOrGroupSid="S-1-1-0" Action="Allow"><Conditions><FilePathCondition Path="%WINDIR%\*" /></Conditions></FilePathRule>
+<FilePathRule Id="92bc1db4-c281-4a0b-bccd-d4e71160d9af" Name="(Default Rule) All files" Description="Allows members of the local Administrators group to run all applications." UserOrGroupSid="S-1-5-32-544" Action="Allow"><Conditions><FilePathCondition Path="*" /></Conditions></FilePathRule>
+</RuleCollection>
+<RuleCollection Type="Script" EnforcementMode="AuditOnly">
+<FilePathRule Id="f57559cd-c7ee-4864-9053-5df2a82ec6d6" Name="(Default Rule) All files located in the Program Files folder" Description="Allows members of the Everyone group to run applications that are located in the Program Files folder." UserOrGroupSid="S-1-1-0" Action="Allow"><Conditions><FilePathCondition Path="%PROGRAMFILES%\*" /></Conditions></FilePathRule>
+<FilePathRule Id="005c681b-b38c-4875-b0fa-d605d3b51045" Name="(Default Rule) All files located in the Windows folder" Description="Allows members of the Everyone group to run applications that are located in the Windows folder." UserOrGroupSid="S-1-1-0" Action="Allow"><Conditions><FilePathCondition Path="%WINDIR%\*" /></Conditions></FilePathRule>
+<FilePathRule Id="d3accfc5-628b-4ab8-af40-54b0a26bb2e0" Name="(Default Rule) All files" Description="Allows members of the local Administrators group to run all applications." UserOrGroupSid="S-1-5-32-544" Action="Allow"><Conditions><FilePathCondition Path="*" /></Conditions></FilePathRule>
+</RuleCollection>
+<RuleCollection Type="Msi" EnforcementMode="AuditOnly"><FilePathRule Id="3e3f7e20-9001-41d1-8b82-2321ee7fa7ae" Name="(Default Rule) All Windows Installer files in %systemdrive%\Windows\Installer" Description="Allows members of the Everyone group to run all Windows Installer files located in %systemdrive%\Windows\Installer." UserOrGroupSid="S-1-1-0" Action="Allow"><Conditions><FilePathCondition Path="%WINDIR%\Installer\*" /></Conditions></FilePathRule><FilePathRule Id="71d2ee9f-e969-4393-b34b-cc75ef434fff" Name="(Default Rule) All Windows Installer files" Description="Allows members of the local Administrators group to run all Windows Installer files." UserOrGroupSid="S-1-5-32-544" Action="Allow"><Conditions><FilePathCondition Path="*.*" /></Conditions></FilePathRule></RuleCollection>
+<RuleCollection Type="Appx" EnforcementMode="NotConfigured" />
+<RuleCollection Type="Dll" EnforcementMode="NotConfigured" />
+</AppLockerPolicy>

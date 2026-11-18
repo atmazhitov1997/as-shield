@@ -1,0 +1,558 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://as-shield.local/schema/profile.schema.json",
+  "title": "AS Shield - security profile",
+  "description": "One profile = one card in the 'Security profiles' section. The profile describes WHAT to apply; HOW is implemented by the step handlers in Engine/Steps.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "title",
+    "os",
+    "steps"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{1,31}$",
+      "description": "Unique identifier; must match the profile folder name."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "icon": {
+      "type": "string",
+      "description": "Segoe MDL2 Assets glyph, e.g. \\ue72e"
+    },
+    "color": {
+      "enum": [
+        "Neon",
+        "Green",
+        "Amber",
+        "Red",
+        "Teal",
+        "Violet"
+      ]
+    },
+    "order": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "basedOn": {
+      "type": "string",
+      "description": "id of the base profile: its steps are inherited, and steps with the same id are replaced."
+    },
+    "os": {
+      "type": "object",
+      "required": [
+        "supported"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "supported": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "10",
+              "11"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "minBuild": {
+          "type": "integer",
+          "minimum": 10240
+        },
+        "note": {
+          "type": "string",
+          "description": "Card caption shown when the OS is not supported (e.g. 'Windows 11 only')."
+        }
+      }
+    },
+    "reboot": {
+      "enum": [
+        "ask",
+        "never",
+        "always"
+      ],
+      "default": "ask"
+    },
+    "onError": {
+      "$ref": "#/definitions/onError"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/step"
+      }
+    },
+    "removeSteps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Step ids of the base profile to remove (only together with basedOn)."
+    }
+  },
+  "definitions": {
+    "onError": {
+      "enum": [
+        "stop",
+        "continue"
+      ],
+      "default": "continue"
+    },
+    "osList": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "10",
+          "11"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "perOs": {
+      "description": "A string or an object {\"10\": ..., \"11\": ...} - the value for a specific Windows version.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "10": {
+              "type": "string"
+            },
+            "11": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "step": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "type": {
+          "enum": [
+            "restorePoint",
+            "userProfilesPath",
+            "folder",
+            "eventLogs",
+            "registry",
+            "removeApps",
+            "removeWinXShell",
+            "services",
+            "appLocker",
+            "lgpo",
+            "lgpoText",
+            "shotPolicies",
+            "userRoles",
+            "selfExclusion",
+            "script"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "when": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "os": {
+              "$ref": "#/definitions/osList"
+            },
+            "minBuild": {
+              "type": "integer"
+            }
+          }
+        },
+        "confirm": {
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "description": "true or the question text - the operator confirms the step (Y/N)."
+        },
+        "onError": {
+          "$ref": "#/definitions/onError"
+        },
+        "params": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "folder"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "path"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "askPath": {
+                    "type": "boolean"
+                  },
+                  "purpose": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "eventLogs"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "logs"
+                ],
+                "properties": {
+                  "logs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "name",
+                        "maxSizeKB"
+                      ],
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "maxSizeKB": {
+                          "type": "integer",
+                          "minimum": 1024
+                        },
+                        "retention": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "registry"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "values"
+                ],
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "path",
+                        "name",
+                        "type",
+                        "value"
+                      ],
+                      "properties": {
+                        "path": {
+                          "type": "string",
+                          "pattern": "^HK(LM|CU):\\\\"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "enum": [
+                            "DWord",
+                            "QWord",
+                            "String",
+                            "ExpandString",
+                            "MultiString"
+                          ]
+                        },
+                        "value": {},
+                        "createKey": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "services"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "$ref": "#/definitions/perOs"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "appLocker"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string"
+                  },
+                  "mode": {
+                    "enum": [
+                      "ask",
+                      "replace",
+                      "merge",
+                      "skip"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "lgpo"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "gpo"
+                ],
+                "properties": {
+                  "gpo": {
+                    "$ref": "#/definitions/perOs"
+                  },
+                  "backupBefore": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "lgpoText"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "entries"
+                ],
+                "properties": {
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "scope",
+                        "key",
+                        "name",
+                        "value"
+                      ],
+                      "properties": {
+                        "scope": {
+                          "enum": [
+                            "Computer",
+                            "User"
+                          ]
+                        },
+                        "key": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string",
+                          "description": "In LGPO format: DWORD:1, SZ:text, DELETE"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "selfExclusion"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "type": "object",
+                "properties": {
+                  "scope": {
+                    "enum": [
+                      "file",
+                      "publisher"
+                    ]
+                  },
+                  "requireAdminOnlyFolder": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "script"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "file",
+                  "function"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string"
+                  },
+                  "function": {
+                    "type": "string"
+                  },
+                  "arguments": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+build/out/
+bin/
+obj/
+.vs/
+*.user
+Payload/LGPO.exe
+search_settings.user.json

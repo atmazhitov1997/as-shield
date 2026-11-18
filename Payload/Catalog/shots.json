@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 2,
+  "items": [
+    {
+      "N": 1,
+      "Title": "Password policy",
+      "Hint": "Account Policies > Password Policy. Capture the whole list of settings.",
+      "Open": [
+        "run:secpol.msc"
+      ],
+      "Apply": "password",
+      "Node": "Account Policies > Password Policy",
+      "Tree": true,
+      "Expect": 1
+    },
+    {
+      "N": 2,
+      "Title": "Account lockout policy",
+      "Hint": "Account Policies > Account Lockout Policy.",
+      "Open": [
+        "run:secpol.msc"
+      ],
+      "Apply": "lockout",
+      "Node": "Account Policies > Account Lockout Policy",
+      "Tree": true,
+      "Expect": 1
+    },
+    {
+      "N": 3,
+      "Title": "Audit policy",
+      "Hint": "Local Policies > Audit Policy: every category set to Success, Failure.",
+      "Open": [
+        "run:secpol.msc"
+      ],
+      "Apply": "audit",
+      "Node": "Local Policies > Audit Policy",
+      "Tree": true,
+      "Expect": 1
+    },
+    {
+      "N": 4,
+      "Title": "Logon warning message",
+      "Hint": "Local Policies > Security Options > 'Interactive logon: Message text / Message title for users attempting to log on'. Select both rows.",
+      "Open": [
+        "run:secpol.msc"
+      ],
+      "Apply": "message",
+      "Node": "Local Policies > Security Options",
+      "Tree": true,
+      "Expect": 1
+    },
+    {
+      "N": 5,
+      "Title": "Idle time before the session is locked",
+      "Hint": "Power Options > Change plan settings: display and sleep timeouts.",
+      "Open": [
+        "cmd:control.exe|/name Microsoft.PowerOptions /page pagePlanSettings"
+      ],
+      "Apply": "idle",
+      "Expect": 1
+    },
+    {
+      "N": 6,
+      "Title": "User information hidden on the lock screen",
+      "Hint": "Local Policies > Security Options > 'Interactive logon: Display user information when the session is locked'.",
+      "Open": [
+        "run:secpol.msc"
+      ],
+      "Apply": "hideuser",
+      "Node": "Local Policies > Security Options",
+      "Tree": true,
+      "Expect": 1
+    },
+    {
+      "N": 7,
+      "Title": "BitLocker - authentication at startup",
+      "Hint": "Administrative Templates > Windows Components > BitLocker Drive Encryption > Operating System Drives ('Require additional authentication at startup - Enabled').",
+      "Open": [
+        "run:gpedit.msc"
+      ],
+      "Apply": "bitlocker",
+      "Node": "Computer Configuration > Administrative Templates > Windows Components > BitLocker Drive Encryption > Operating System Drives",
+      "Tree": true,
+      "Expect": 1
+    },
+    {
+      "N": 8,
+      "Title": "System information",
+      "Hint": "DirectX Diagnostic Tool > System tab (computer name, OS, CPU, memory).",
+      "Open": [
+        "run:dxdiag.exe"
+      ],
+      "Expect": 1
+    },
+    {
+      "N": 9,
+      "Title": "Failed logon events",
+      "Hint": "Security log filtered by event 4625. Select an event so that the details pane is visible.",
+      "Open": [
+        "ev:Security:4625"
+      ],
+      "Apply": "audit",
+      "Expect": 1
+    }
+  ]
+}

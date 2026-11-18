@@ -1,0 +1,7 @@
+Name,StartType,AskOptions,AskPrompt
+RemoteRegistry,DISABLED,,
+SSDPSRV,DISABLED,,
+upnphost,DISABLED,,
+WMPNetworkSvc,DISABLED,,
+AppIDSvc,AUTO,,
+bthserv,DEMAND,DEMAND|DISABLED,Bluetooth support. Choose DISABLED if Bluetooth is not needed on this PC.

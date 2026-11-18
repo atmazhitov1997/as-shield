@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 2,
+  "sections": [
+    {
+      "id": "as",
+      "title": "SECURITY PROFILES",
+      "subtitle": "Choose the profile for this PC",
+      "source": "profiles"
+    },
+    {
+      "id": "extra",
+      "title": "EXTRAS",
+      "subtitle": "Individual tools",
+      "items": [
+        {
+          "action": "terminal",
+          "title": "Terminal and PowerShell",
+          "description": "Remove them from the Win+X menu.",
+          "icon": "",
+          "color": "Red",
+          "kind": "script",
+          "os": [
+            "11"
+          ],
+          "note": "Windows 11",
+          "confirm": "change"
+        },
+        {
+          "action": "users",
+          "title": "Users and folders",
+          "description": "Local users and working folders.",
+          "icon": "",
+          "color": "Green",
+          "kind": "script",
+          "confirm": "change"
+        },
+        {
+          "action": "pcinfo",
+          "title": "PC information",
+          "description": "PC record card: OS, hardware, software. Report.",
+          "icon": "",
+          "color": "Teal",
+          "kind": "script",
+          "confirm": "check"
+        },
+        {
+          "action": "phrases",
+          "title": "Sensitive phrases",
+          "description": "Groups and phrases used by the sensitive document search.",
+          "icon": "",
+          "color": "Violet",
+          "kind": "ui"
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "title": "CHECKS AND MAINTENANCE",
+      "subtitle": "Scans, rollback, cleanup",
+      "items": [
+        {
+          "action": "scanlic",
+          "title": "Software licenses",
+          "description": "Windows and Office activation.",
+          "icon": "",
+          "color": "Neon",
+          "kind": "script",
+          "confirm": "check"
+        },
+        {
+          "action": "scandocs",
+          "title": "Sensitive documents",
+          "description": "Find files that contain the configured phrases.",
+          "icon": "",
+          "color": "Violet",
+          "kind": "script",
+          "confirm": "check"
+        },
+        {
+          "action": "restore",
+          "title": "Reset policies",
+          "description": "Reset policies and services to Windows defaults.",
+          "icon": "",
+          "color": "Amber",
+          "kind": "script",
+          "confirm": "danger",
+          "confirmText": "WARNING: all applied security policies, AppLocker rules and service settings will be reset to Windows defaults."
+        },
+        {
+          "action": "usbclean",
+          "title": "USB history cleanup",
+          "description": "Old USB drives and ghost volumes.",
+          "icon": "",
+          "color": "Red",
+          "kind": "script",
+          "confirm": "danger",
+          "confirmText": "Only traces of OLD devices will be removed. Drives that are connected now are detected and left untouched."
+        },
+        {
+          "action": "policyaudit",
+          "title": "Policy audit",
+          "description": "Compare the PC with a profile's GPO backup.",
+          "icon": "",
+          "color": "Green",
+          "kind": "script",
+          "confirm": "check"
+        },
+        {
+          "action": "allowself",
+          "title": "Allow to run (audit)",
+          "description": "Add this program to the SRP/AppLocker exceptions so it can run after the policies are applied.",
+          "icon": "",
+          "color": "Teal",
+          "kind": "script",
+          "confirm": "change",
+          "confirmText": "The program will be added to the SRP and AppLocker exceptions (allowed to run for auditing after the policies are applied)."
+        }
+      ]
+    },
+    {
+      "id": "control",
+      "title": "CONTROL AND REPORTING",
+      "subtitle": "Action log, work report, integrity",
+      "items": [
+        {
+          "action": "act",
+          "title": "Work report",
+          "description": "Log of all actions with integrity control (SHA-256) and a Word report.",
+          "icon": "",
+          "color": "Neon",
+          "kind": "ui"
+        },
+        {
+          "action": "session",
+          "title": "Session report",
+          "description": "Summary of the current run: actions, time, result, operator. Word.",
+          "icon": "",
+          "color": "Teal",
+          "kind": "ui"
+        },
+        {
+          "action": "integrity",
+          "title": "Integrity control",
+          "description": "Reference snapshot of the PC and detection of drift over time. Report on the desktop.",
+          "icon": "",
+          "color": "Amber",
+          "kind": "script",
+          "confirm": "check"
+        }
+      ]
+    }
+  ],
+  "disabledActions": []
+}

@@ -1,0 +1,36 @@
+{
+  "Groups": [
+    {
+      "Name": "Confidential",
+      "ColorHex": "#E65050",
+      "Phrases": [
+        {
+          "Text": "confidential",
+          "SearchInFileName": true,
+          "SearchInContent": true
+        },
+        {
+          "Text": "internal use only",
+          "SearchInFileName": true,
+          "SearchInContent": true
+        }
+      ]
+    },
+    {
+      "Name": "Personal data",
+      "ColorHex": "#FFA53C",
+      "Phrases": [
+        {
+          "Text": "passport",
+          "SearchInFileName": true,
+          "SearchInContent": false
+        },
+        {
+          "Text": "date of birth",
+          "SearchInFileName": false,
+          "SearchInContent": true
+        }
+      ]
+    }
+  ]
+}

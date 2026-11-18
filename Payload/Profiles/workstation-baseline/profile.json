@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "id": "workstation-baseline",
+  "title": "Workstation baseline (example)",
+  "description": "Example profile: event log sizes, basic registry hardening, a few services, AppLocker default rules in audit mode.",
+  "icon": "",
+  "color": "Neon",
+  "order": 10,
+  "os": {
+    "supported": [
+      "10",
+      "11"
+    ],
+    "minBuild": 10240
+  },
+  "reboot": "ask",
+  "onError": "continue",
+  "steps": [
+    {
+      "id": "restore-point",
+      "type": "restorePoint",
+      "title": "System restore point",
+      "onError": "stop"
+    },
+    {
+      "id": "event-logs",
+      "type": "eventLogs",
+      "title": "Event log sizes",
+      "params": {
+        "logs": [
+          {
+            "name": "Application",
+            "maxSizeKB": 65536,
+            "retention": false
+          },
+          {
+            "name": "Security",
+            "maxSizeKB": 196608,
+            "retention": false
+          },
+          {
+            "name": "System",
+            "maxSizeKB": 65536,
+            "retention": false
+          },
+          {
+            "name": "Microsoft-Windows-PowerShell/Operational",
+            "maxSizeKB": 65536,
+            "retention": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "registry-hardening",
+      "type": "registry",
+      "title": "Basic registry hardening",
+      "params": {
+        "values": [
+          {
+            "path": "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+            "name": "AutoAdminLogon",
+            "type": "String",
+            "value": "0"
+          },
+          {
+            "path": "HKLM:\\System\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+            "name": "DisableIPSourceRouting",
+            "type": "DWord",
+            "value": 2
+          },
+          {
+            "path": "HKLM:\\System\\CurrentControlSet\\Services\\Tcpip\\Parameters",
+            "name": "EnableICMPRedirect",
+            "type": "DWord",
+            "value": 0
+          },
+          {
+            "path": "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer",
+            "name": "NoDriveTypeAutoRun",
+            "type": "DWord",
+            "value": 255
+          },
+          {
+            "path": "HKLM:\\System\\CurrentControlSet\\Control\\FileSystem",
+            "name": "NtfsDisable8dot3NameCreation",
+            "type": "DWord",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "services",
+      "type": "services",
+      "title": "Service start types",
+      "params": {
+        "file": "services.csv"
+      }
+    },
+    {
+      "id": "applocker",
+      "type": "appLocker",
+      "title": "AppLocker default rules (audit only)",
+      "params": {
+        "file": "Configs/Examples/AppLocker-DefaultRules-AuditOnly.xml",
+        "mode": "ask"
+      }
+    },
+    {
+      "id": "policies",
+      "type": "lgpoText",
+      "title": "Local policies (examples)",
+      "params": {
+        "entries": [
+          {
+            "scope": "Computer",
+            "key": "SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer",
+            "name": "NoAutoplayfornonVolume",
+            "value": "DWORD:1"
+          },
+          {
+            "scope": "Computer",
+            "key": "SOFTWARE\\Policies\\Microsoft\\Windows\\System",
+            "name": "EnableSmartScreen",
+            "value": "DWORD:1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gpo-backup",
+      "type": "lgpo",
+      "title": "Your GPO backup (disabled example)",
+      "enabled": false,
+      "onError": "stop",
+      "params": {
+        "gpo": {
+          "10": "Configs/Examples/YourGpoBackup-Win10",
+          "11": "Configs/Examples/YourGpoBackup-Win11"
+        },
+        "backupBefore": true
+      }
+    },
+    {
+      "id": "self-exclusion",
+      "type": "selfExclusion",
+      "title": "Allow AS Shield to run after the policies are applied",
+      "params": {
+        "scope": "publisher",
+        "requireAdminOnlyFolder": true
+      }
+    }
+  ]
+}

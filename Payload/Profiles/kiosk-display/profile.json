@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "id": "kiosk-display",
+  "title": "Kiosk display (example)",
+  "description": "Inherits the workstation baseline, keeps the screen on and removes Terminal/PowerShell from the Win+X menu.",
+  "icon": "",
+  "color": "Teal",
+  "order": 20,
+  "basedOn": "workstation-baseline",
+  "os": {
+    "supported": [
+      "11"
+    ],
+    "minBuild": 22000,
+    "note": "Windows 11 only"
+  },
+  "removeSteps": [
+    "applocker"
+  ],
+  "steps": [
+    {
+      "id": "screen-always-on",
+      "type": "lgpoText",
+      "title": "Never turn the display off (plugged in)",
+      "params": {
+        "entries": [
+          {
+            "scope": "Computer",
+            "key": "SOFTWARE\\Policies\\Microsoft\\Power\\PowerSettings\\3C0BC021-C8A8-4E07-A973-6B14CBCB2B7E",
+            "name": "ACSettingIndex",
+            "value": "DWORD:0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "remove-winx-shell",
+      "type": "removeWinXShell",
+      "title": "Remove Terminal and PowerShell from the Win+X menu"
+    }
+  ]
+}

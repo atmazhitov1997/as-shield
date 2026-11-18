@@ -1,0 +1,9 @@
+AS Shield includes or uses the following third-party components:
+
+JetBrains Mono (App/JetBrainsMono-*.ttf)
+  Copyright 2020 The JetBrains Mono Project Authors
+  SIL Open Font License 1.1 - see App/JetBrainsMono-OFL.txt
+
+Microsoft LGPO.exe (NOT included)
+  Part of the Microsoft Security Compliance Toolkit. build/get-lgpo.ps1 downloads it
+  from the Microsoft Download Center at build time. It is covered by Microsoft's own terms.
